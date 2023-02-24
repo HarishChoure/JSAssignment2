@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Employee Management System</title>
+  </head>
+  <body>
+    <h1>Employee Management System</h1>
+
+    <form id="employeeForm">
+      <label for="nameInput">Name:</label>
+      <input type="text" id="nameInput" name="nameInput" required><br><br>
+
+      <label for="addressInput">Address :</label>
+      <input type="text" id="addressInput" name="addressInput" required><br><br>
+
+      <label for="employeeIdInput">Employee ID : </label>
+      <input type="number" id="employeeIdInput" name="employeeIdInput" required><br><br>
+
+      <label for="designationInput">Designation : </label>
+      <input type="text" id="designationInput" name="designationInput" required><br><br>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <div id="employeeList"></div>
+
+    <script>
+class Employee {
+    static allEmployee = [];
+    name;
+    address;
+    employeeId;
+    designation;
+
+    constructor(name, address, employeeId, designation) {
+        this.name = name;
+        this.address = address;
+        this.employeeId = employeeId;
+        this.designation = designation;
+    }
+
+    static createEmployee(name, add, empId, desig) {
+        const obj = {
+            fullName: name,
+            address: add,
+            employee_id: empId,
+            designation: desig,
+        }
+        Employee.addEmployee(obj)
+    }
+
+    static addEmployee(obj) {
+        let check = true
+        for (let i = 0; i < Employee.allEmployee.length; i++) {
+            if (Employee.allEmployee[i].employee_id === obj.employee_id) {
+                check = false
+            }
+        }
+        if (check) {
+            Employee.allEmployee.push(obj)
+        }
+        else {
+            console.log("Employee with the same ID already exists!")
+        }
+    }
+
+    static display() {
+        for (let i = 0; i < Employee.allEmployee.length; i++) {
+            console.log(Employee.allEmployee[i])
+        }
+    }
+
+    editEmployeeDetail(newName, newEmployeeId, newAddress, newDesignation) {
+    let check = false
+    for (let i = 0; i < Employee.allEmployee.length; i++) {
+        if (Employee.allEmployee[i].employee_id === newEmployeeId) {
+            check = true
+        }
+    }
+    if (check) {
+        this.name = newName;
+        this.employeeId = newEmployeeId;
+        this.address = newAddress;
+        this.designation = newDesignation;
+    }
+    else {
+        console.log("Employee Id does not exist")
+    }
+  }
+}
+
+      // Add event listener to form to add employee to array when submitted
+      const employeeForm = document.getElementById('employeeForm');
+      employeeForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const name = document.getElementById('nameInput').value;
+        const address = document.getElementById('addressInput').value;
+        const employeeId = parseInt(document.getElementById('employeeIdInput').value);
+        const designation = document.getElementById('designationInput').value;
+        Employee.createEmployee(name, address, employeeId, designation);
+        displayEmployees();
+        employeeForm.reset();
+      });
+
+      // Display all employees in the employeeList div
+      function displayEmployees() {
+        const employeeList = document.getElementById('employeeList');
+        employeeList.innerHTML = '';
+        Employee.allEmployee.forEach((employee) => {
+          const employeeDiv = document.createElement('div');
+          employeeDiv.innerHTML = `
+            <p>Name: ${employee.fullName}</p>
+            <p>Address: ${employee.address}</p>
+            <p>Employee ID: ${employee.employee_id}</p>
+            <p>Designation: ${employee.designation}</p>
+            <hr>
+          `;
+          employeeList.appendChild(employeeDiv);
+        });
+      }
+
+      // Call displayEmployees on page load to display existing employees
+      displayEmployees();
+    </script>
+  </body>
+</html>
+
