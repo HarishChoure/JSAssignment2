@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
-  <head>
+  <head lang="en">
     <meta charset="UTF-8">
     <title>Assignment 2</title>
   </head>
   <body>
-    <h1>Enter Employee Detail</h1>
-
+    <!-- Heading -->
+    <h1>Enter Employee Details</h1>
+<!-- Create form for take input from employee -->
     <form id="employeeForm">
       <label for="nameInput">Name:</label>
       <input type="text" id="nameInput" name="nameInput" required><br><br>
@@ -26,6 +27,7 @@
     <div id="employeeList"></div>
 
     <script>
+//Employee class
 class Employee {
     static allEmployee = [];
     name;
@@ -49,7 +51,7 @@ class Employee {
         }
         Employee.addEmployee(obj)
     }
-
+//Add Element
     static addEmployee(obj) {
         let check = true
         for (let i = 0; i < Employee.allEmployee.length; i++) {
@@ -64,13 +66,13 @@ class Employee {
             console.log("Employee with the same ID already exists!")
         }
     }
-
+//Display Element
     static display() {
         for (let i = 0; i < Employee.allEmployee.length; i++) {
             console.log(Employee.allEmployee[i])
         }
     }
-
+//Edit employee code
     editEmployeeDetail(newName, newEmployeeId, newAddress, newDesignation) {
     let check = false
     for (let i = 0; i < Employee.allEmployee.length; i++) {
